@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#menim sort edilmios iplerim
+#boyukde kicike iplerim
 awk '{print $1, $9}' apache-access.log | \
 awk '{key=$1" "$2; count[key]++} END {for (k in count) print count[k], k}' | \
 sort -nr
