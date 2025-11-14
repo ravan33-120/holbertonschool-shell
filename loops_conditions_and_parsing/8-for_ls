@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Display the content of the current directory in list format,
+# showing only the part of the name after the first dash
+
+for file in *; do
+    # Skip hidden files (pattern * already excludes them)
+    echo "${file#*-}"
+done
+
