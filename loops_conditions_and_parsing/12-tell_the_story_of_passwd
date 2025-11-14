@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
-# Tell the story of each user from /etc/passwd
+# Tell the story of each user from /etc/passwd in a readable format
 
 while IFS=":" read -r user pass uid gid info home shell; do
-    echo "The user $user is part of the $uid gang, lives in $home and rides $shell. $uid's place is protected by the passcode $pass, more info about the user here: $info"
+    # Əgər info boşdursa, sadəcə boşluq göstəririk
+    if [ -z "$info" ]; then
+        info_text=""
+    else
+        info_text="$info"
+    fi
+
+    echo "The user $user is part of the $uid gang, lives in $home and rides $shell. $uid's place is protected by the passcode $pass, more info about the user here: $info_text"
 done < /etc/passwd
 
