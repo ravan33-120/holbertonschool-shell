@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#menim iplerim
+awk '{print $!, $9}' apache-access.log | sort | uniq
