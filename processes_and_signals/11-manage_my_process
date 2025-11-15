@@ -1,34 +1,41 @@
 #!/usr/bin/env bash
-# Script that manages the manage_my_process script
+# Init-like script to manage manage_my_process
 
-PIDFILE="/var/run/my_process.pid"
-PROCESS="/path/to/manage_my_process"
+PID_FILE="/var/run/my_process.pid"
+SCRIPT_PATH="/usr/local/bin/manage_my_process"  # adjust path if needed
+
+start() {
+    "$SCRIPT_PATH" &         # Start in background
+    echo $! > "$PID_FILE"    # Save PID to file
+    echo "manage_my_process started"
+}
+
+stop() {
+    if [ -f "$PID_FILE" ]; then
+        kill $(cat "$PID_FILE") 2>/dev/null
+        rm -f "$PID_FILE"
+        echo "manage_my_process stopped"
+    fi
+}
+
+restart() {
+    stop
+    start
+    echo "manage_my_process restarted"
+}
 
 case "$1" in
     start)
-        "$PROCESS" &
-        echo $! > "$PIDFILE"
-        echo "manage_my_process started"
+        start
         ;;
     stop)
-        if [ -f "$PIDFILE" ]; then
-            kill "$(cat "$PIDFILE")" 2>/dev/null
-            rm -f "$PIDFILE"
-            echo "manage_my_process stopped"
-        else
-            echo "No PID file found. Process may not be running."
-        fi
+        stop
         ;;
     restart)
-        if [ -f "$PIDFILE" ]; then
-            kill "$(cat "$PIDFILE")" 2>/dev/null
-            rm -f "$PIDFILE"
-        fi
-        "$PROCESS" &
-        echo $! > "$PIDFILE"
-        echo "manage_my_process restarted"
+        restart
         ;;
     *)
         echo "Usage: manage_my_process {start|stop|restart}"
         ;;
 esac
+
