@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#menim killsiz kilim
+pkill -f 4-to_infinity_and_beyond
