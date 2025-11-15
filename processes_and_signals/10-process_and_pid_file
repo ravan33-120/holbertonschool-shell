@@ -1,25 +1,38 @@
 #!/usr/bin/env bash
-# Create PID file and handle signals
+# Script that manages its own PID file and handles signals
 
-PID_FILE="/var/run/myscript.pid"
+PIDFILE="/var/run/myscript.pid"
 
-# Create PID file
-echo $$ > "$PID_FILE"
+# Fayla öz PID-ni yazırıq
+echo $$ > "$PIDFILE"
 
-# Function to remove PID file and exit
-cleanup() {
-    rm -f "$PID_FILE"
+# SIGTERM gələndə işləyəcək funksiya
+sigterm_handler() {
+    echo "I hate the kill command"
+    rm -f "$PIDFILE"
     exit 0
 }
 
-# Trap signals
-trap 'echo "I hate the kill command"' SIGTERM
-trap 'echo "Y U no love me?!"' SIGINT
-trap 'cleanup' SIGQUIT SIGTERM
+# SIGINT (Ctrl+C) gələndə işləyəcək funksiya
+sigint_handler() {
+    echo "Y U no love me?!"
+}
 
-# Infinite loop
+# SIGQUIT və SIGTERM üçün faylı silib çıxmaq
+sigquit_handler() {
+    rm -f "$PIDFILE"
+    exit 0
+}
+
+# Siqnallar üçün “trap” təyin edirik
+trap 'sigterm_handler' SIGTERM
+trap 'sigint_handler' SIGINT
+trap 'sigquit_handler' SIGQUIT
+
+# Sonsuz döngü
 while true; do
     echo "To infinity and beyond"
     sleep 2
 done
+
 
