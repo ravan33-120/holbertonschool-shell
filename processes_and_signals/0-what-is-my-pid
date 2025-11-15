@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#menim sexsi pid-im
+echo "$$"
