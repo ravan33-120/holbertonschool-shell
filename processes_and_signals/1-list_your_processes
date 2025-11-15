@@ -1,0 +1,3 @@
+#!/usr/bin/env bash 
+#menim calisan pidlerim 
+ps aux 
