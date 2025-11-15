@@ -1,3 +1,11 @@
 #!/usr/bin/env bash
-#7nikill eden skript
-pkill -f 7-highlander
+# Kill the 7-highlander process
+
+# Tap 7-highlander-in PID-i
+pid=$(pgrep -f 7-highlander)
+
+# Əgər PID tapılıbsa, öldür
+if [ -n "$pid" ]; then
+    kill -9 "$pid"
+fi
+
