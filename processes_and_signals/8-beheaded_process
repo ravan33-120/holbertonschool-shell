@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#7nikill eden skript
 pid =(pgrep -f 7-highlander)
 if [ -n "$pid" ]; then
 kill "$pid" 
